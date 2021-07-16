@@ -11,6 +11,7 @@ namespace ReportConverter
     {
         None = 0,
         JUnit = 1,
-        NUnit3 = 2
+        NUnit3 = 2,
+        Sqlite = 4,
     }
 }

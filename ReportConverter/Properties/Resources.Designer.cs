@@ -108,7 +108,7 @@ namespace ReportConverter.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The path to a directory where the raw XML report can be found.
         ///
-        ///  If the &quot;aggregation&quot; option is enabled, the program accepts multiple
+        ///  If the &quot;aggregate&quot; option is enabled, the program accepts multiple
         ///  paths to the directories..
         /// </summary>
         internal static string ArgDesc_InputFile {
@@ -128,11 +128,54 @@ namespace ReportConverter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Whether searches raw XML reports recursively in the directory.
+        ///
+        ///    This option is mostly working with the &quot;aggregate&quot; option to
+        ///    search multiple raw XML reports..
+        /// </summary>
+        internal static string ArgDesc_RecursiveOption {
+            get {
+                return ResourceManager.GetString("ArgDesc_RecursiveOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The maximum depth to do recursive search in the directory.
+        ///
+        ///    This option is typically enabled with &quot;recursive&quot; option to set
+        ///    the maximum depth of the search path. Defaults to 10 if this
+        ///    option is not specified..
+        /// </summary>
+        internal static string ArgDesc_SearchDepthOption {
+            get {
+                return ResourceManager.GetString("ArgDesc_SearchDepthOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show extra verbose output..
+        /// </summary>
+        internal static string ArgDesc_ShowExtraVerboseOption {
+            get {
+                return ResourceManager.GetString("ArgDesc_ShowExtraVerboseOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show program help..
         /// </summary>
         internal static string ArgDesc_ShowHelpOption {
             get {
                 return ResourceManager.GetString("ArgDesc_ShowHelpOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show verbose output..
+        /// </summary>
+        internal static string ArgDesc_ShowVerboseOption {
+            get {
+                return ResourceManager.GetString("ArgDesc_ShowVerboseOption", resourceCulture);
             }
         }
         
@@ -146,12 +189,25 @@ namespace ReportConverter.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error: The XML report file &apos;run_results.xml&apos; is not found.
-        ///Please run test with &quot;HTML Report&quot; format to generate the XML report file..
+        ///   Looks up a localized string similar to Convert the raw XML report to Sqlite database tables and
+        ///    save the database to the specified file.
+        ///
+        ///    The &quot;aggregate&quot; option is turned on automatically when converting
+        ///    to Sqlite database, even though the &quot;aggregate&quot; option is not
+        ///    specified..
         /// </summary>
-        internal static string ErrMsg_CannotFindXmlReportFile {
+        internal static string ArgDesc_SqliteDBFileOption {
             get {
-                return ResourceManager.GetString("ErrMsg_CannotFindXmlReportFile", resourceCulture);
+                return ResourceManager.GetString("ArgDesc_SqliteDBFileOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Micro Focus or one of its affiliates..
+        /// </summary>
+        internal static string CompanyName {
+            get {
+                return ResourceManager.GetString("CompanyName", resourceCulture);
             }
         }
         
@@ -192,7 +248,7 @@ namespace ReportConverter.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error: The output file cannot be same as the input file..
+        ///   Looks up a localized string similar to Error: The JUnit output file cannot be same as the input file..
         /// </summary>
         internal static string ErrMsg_JUnit_OutputSameAsInput {
             get {
@@ -206,6 +262,96 @@ namespace ReportConverter.Properties {
         internal static string ErrMsg_Prefix {
             get {
                 return ResourceManager.GetString("ErrMsg_Prefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error: The table has auto-increment column, however, there is no property in the relevant data object..
+        /// </summary>
+        internal static string ErrMsg_Sqlite_AutoIncrementPropertyIsMissing {
+            get {
+                return ResourceManager.GetString("ErrMsg_Sqlite_AutoIncrementPropertyIsMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error: Failed to create the table: {0}.
+        /// </summary>
+        internal static string ErrMsg_Sqlite_CreateTableFailed {
+            get {
+                return ResourceManager.GetString("ErrMsg_Sqlite_CreateTableFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Sqlite database is not connected, or connection is closed or broken..
+        /// </summary>
+        internal static string ErrMsg_Sqlite_DBNotConnect {
+            get {
+                return ResourceManager.GetString("ErrMsg_Sqlite_DBNotConnect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error: Failed to build the SQL command: {0}.
+        /// </summary>
+        internal static string ErrMsg_Sqlite_ErrorBuildCommand {
+            get {
+                return ResourceManager.GetString("ErrMsg_Sqlite_ErrorBuildCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error: The affected lines after running the SQL command to insert data is not 1..
+        /// </summary>
+        internal static string ErrMsg_Sqlite_InsertOneRecordFailed {
+            get {
+                return ResourceManager.GetString("ErrMsg_Sqlite_InsertOneRecordFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error: The {0} record Id is invalid when operating on the table &apos;{1}&apos;..
+        /// </summary>
+        internal static string ErrMsg_Sqlite_InvalidRecordId {
+            get {
+                return ResourceManager.GetString("ErrMsg_Sqlite_InvalidRecordId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error: NULL value is not allowed in the column &apos;{0}&apos; in table &apos;{1}&apos;.
+        /// </summary>
+        internal static string ErrMsg_Sqlite_NullValueNotAllowed {
+            get {
+                return ResourceManager.GetString("ErrMsg_Sqlite_NullValueNotAllowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error: The Sqlite output can&apos;t be a directory.
+        /// </summary>
+        internal static string ErrMsg_Sqlite_OutputCannotDir {
+            get {
+                return ResourceManager.GetString("ErrMsg_Sqlite_OutputCannotDir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error: The Sqlite output file cannot be same as the input file..
+        /// </summary>
+        internal static string ErrMsg_Sqlite_OutputSameAsInput {
+            get {
+                return ResourceManager.GetString("ErrMsg_Sqlite_OutputSameAsInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error: The value is invalid for the option &apos;{0}&apos;.
+        /// </summary>
+        internal static string ErrorMsg_InvalidOptionalArgValue {
+            get {
+                return ResourceManager.GetString("ErrorMsg_InvalidOptionalArgValue", resourceCulture);
             }
         }
         
@@ -512,6 +658,15 @@ namespace ReportConverter.Properties {
         internal static string InfoMsg_NUnit3_OutputGenerated {
             get {
                 return ResourceManager.GetString("InfoMsg_NUnit3_OutputGenerated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Sqlite database file is generated at: {0}.
+        /// </summary>
+        internal static string InfoMsg_Sqlite_OutputGenerated {
+            get {
+                return ResourceManager.GetString("InfoMsg_Sqlite_OutputGenerated", resourceCulture);
             }
         }
         
@@ -850,6 +1005,136 @@ namespace ReportConverter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The raw XML report is found at: {0}.
+        /// </summary>
+        internal static string VerbMsg_RawReportPathFound {
+            get {
+                return ResourceManager.GetString("VerbMsg_RawReportPathFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Searching the raw XML reports in the sub folders under: {0}.
+        /// </summary>
+        internal static string VerbMsg_RecusiveSearchingPath {
+            get {
+                return ResourceManager.GetString("VerbMsg_RecusiveSearchingPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The SQL command to check table existence is:
+        ///{0}.
+        /// </summary>
+        internal static string VerbMsg_Sqlite_CheckTableExistCommandText {
+            get {
+                return ResourceManager.GetString("VerbMsg_Sqlite_CheckTableExistCommandText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The connection to the Sqlite database is closed..
+        /// </summary>
+        internal static string VerbMsg_Sqlite_ConnectionClosed {
+            get {
+                return ResourceManager.GetString("VerbMsg_Sqlite_ConnectionClosed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The connection to the Sqlite database is opened..
+        /// </summary>
+        internal static string VerbMsg_Sqlite_ConnectionOpened {
+            get {
+                return ResourceManager.GetString("VerbMsg_Sqlite_ConnectionOpened", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Sqlite database connection string is: {0}.
+        /// </summary>
+        internal static string VerbMsg_Sqlite_ConnectionString {
+            get {
+                return ResourceManager.GetString("VerbMsg_Sqlite_ConnectionString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The SQL command to create table is:
+        ///{0}.
+        /// </summary>
+        internal static string VerbMsg_Sqlite_CreateTableCommandText {
+            get {
+                return ResourceManager.GetString("VerbMsg_Sqlite_CreateTableCommandText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The SQL command to fetch table sequence is:
+        ///{0}.
+        /// </summary>
+        internal static string VerbMsg_Sqlite_FetchTableSequenceCommandText {
+            get {
+                return ResourceManager.GetString("VerbMsg_Sqlite_FetchTableSequenceCommandText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The SQL command to insert table is:
+        ///{0}.
+        /// </summary>
+        internal static string VerbMsg_Sqlite_InsertTableCommandText {
+            get {
+                return ResourceManager.GetString("VerbMsg_Sqlite_InsertTableCommandText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t find the auto-increment identifier in table: {0}.
+        /// </summary>
+        internal static string VerbMsg_Sqlite_NotFoundAutoIncrementId {
+            get {
+                return ResourceManager.GetString("VerbMsg_Sqlite_NotFoundAutoIncrementId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Test result has been converted to database tables: {0}.
+        /// </summary>
+        internal static string VerbMsg_Sqlite_PostProcTestResult {
+            get {
+                return ResourceManager.GetString("VerbMsg_Sqlite_PostProcTestResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Converting the raw XML report(s) to Sqlite database ....
+        /// </summary>
+        internal static string VerbMsg_Sqlite_PreConvert {
+            get {
+                return ResourceManager.GetString("VerbMsg_Sqlite_PreConvert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Table is created: {0}.
+        /// </summary>
+        internal static string VerbMsg_Sqlite_TableCreated {
+            get {
+                return ResourceManager.GetString("VerbMsg_Sqlite_TableCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The target Sqlite database file is truncated..
+        /// </summary>
+        internal static string VerbMsg_Sqlite_TruncateDBFile {
+            get {
+                return ResourceManager.GetString("VerbMsg_Sqlite_TruncateDBFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Warning: The node is skipped with the node type: {0}.
         /// </summary>
         internal static string WarningMsg_Input_SkippedNodeType {
@@ -864,6 +1149,15 @@ namespace ReportConverter.Properties {
         internal static string WarningMsg_UnknownOption {
             get {
                 return ResourceManager.GetString("WarningMsg_UnknownOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning: The XML report file &apos;run_results.xml&apos; is not found at: {0}.
+        /// </summary>
+        internal static string WarnMsg_CannotFindXmlReportFile {
+            get {
+                return ResourceManager.GetString("WarnMsg_CannotFindXmlReportFile", resourceCulture);
             }
         }
     }

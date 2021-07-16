@@ -104,6 +104,10 @@ namespace ReportConverter
                     {
                         return true;
                     }
+                    else if (ShortFormArgIndicator + name == arg)
+                    {
+                        return true;
+                    }
                 }
             }
             return false;
@@ -132,7 +136,6 @@ namespace ReportConverter
                             if (propertyType == typeof(bool))
                             {
                                 optArg.PropertyInfo.SetValue(cmdArgs, true);
-                                break;
                             }
                             else if (propertyType == typeof(string))
                             {
@@ -145,13 +148,34 @@ namespace ReportConverter
                                 {
                                     optArg.PropertyInfo.SetValue(cmdArgs, args[i]);
                                 }
-                                break;
+                            }
+                            else if (propertyType == typeof(int))
+                            {
+                                i++;
+                                if (i >= args.Length)
+                                {
+                                    errorList.Add(string.Format(Properties.Resources.ErrorMsg_MissingOptionalArgValue, optArg.Argument.FirstName));
+                                }
+                                else
+                                {
+                                    int intValue = 0;
+                                    if (!int.TryParse(args[i], out intValue))
+                                    {
+                                        errorList.Add(string.Format(Properties.Resources.ErrorMsg_InvalidOptionalArgValue, optArg.Argument.FirstName));
+                                    }
+                                    else
+                                    {
+                                        optArg.PropertyInfo.SetValue(cmdArgs, intValue);
+                                    }
+                                }
                             }
                             else
                             {
                                 // not supported property type
                                 errorList.Add(string.Format(Properties.Resources.ErrorMsg_UnknownArgPropertyType, optArg.Argument.FirstName, propertyType.FullName));
                             }
+
+                            break;
                         }
                     }
 

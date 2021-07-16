@@ -67,6 +67,7 @@ namespace ReportConverter.XmlReport.GUITest
                     FailedDescription = DetermineFailedDescription(checkpoint);
                 }
             }
+            Detail = checkpoint;
 
             if (string.IsNullOrWhiteSpace(FailedDescription))
             {
@@ -168,5 +169,7 @@ namespace ReportConverter.XmlReport.GUITest
 
         public string CheckpointType { get; private set; }
         public string CheckpointSubType { get; private set; }
+
+        public CheckpointExtType Detail { get; private set; }
     }
 }

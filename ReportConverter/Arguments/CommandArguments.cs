@@ -15,8 +15,14 @@ namespace ReportConverter
 
             JUnitXmlFile = string.Empty;
             NUnit3XmlFile = string.Empty;
+            SqliteDBFile = string.Empty;
+            Aggregation = false;
+            RecursiveSearch = false;
+            RecursiveSearchDepth = 10;
             ShowVersion = false;
             ShowHelp = false;
+            Verbose = false;
+            ExtraVerbose = false;
             InputPath = string.Empty;
         }
 
@@ -26,6 +32,11 @@ namespace ReportConverter
         [ArgDescription(ResourceName = "ArgDesc_JUnitFileOption")]
         public string JUnitXmlFile { get; set; }
 
+        [OptionalArg("sqlite")]
+        [OptionalArgValue("<file>")]
+        [ArgDescription(ResourceName = "ArgDesc_SqliteDBFileOption")]
+        public string SqliteDBFile { get; set; }
+
         //[OptionalArg(new string[] { "nunit3", "nunit", "n" })]
         //[OptionalArgValue("<file>")]
         //[ArgDescription("The file path to save the converted report in NUnit 3 XML format.")]
@@ -34,7 +45,18 @@ namespace ReportConverter
         [OptionalArg(new string[] { "aggregate", "aggregation", "a" })]
         [ArgDescription(ResourceName = "ArgDesc_AggregationOption")]
         [ArgSample("ReportConverter -j \"output.xml\" --aggregate \"report1\" \"report2\"")]
+        [ArgSample("ReportConverter -a --sqlite \"reports.sqlite.db\" \"report1\" \"report2\"")]
         public bool Aggregation { get; set; }
+
+        [OptionalArg("recursive", "r")]
+        [ArgDescription(ResourceName = "ArgDesc_RecursiveOption")]
+        public bool RecursiveSearch { get; set; }
+
+        [OptionalArg(new string[] { "depth", "search-depth", "d" })]
+        [OptionalArgValue("<value>")]
+        [ArgDescription(ResourceName = "ArgDesc_SearchDepthOption")]
+        [ArgSample("ReportConverter -j \"output.xml\" -a -r -d 3 \"reports\"")]
+        public int RecursiveSearchDepth { get; set; }
 
         [OptionalArg("version", "V")]
         [ArgDescription(ResourceName = "ArgDesc_ShowVersionOption")]
@@ -43,6 +65,14 @@ namespace ReportConverter
         [OptionalArg(new string[] { "help", "h", "?" })]
         [ArgDescription(ResourceName = "ArgDesc_ShowHelpOption")]
         public bool ShowHelp { get; set; }
+
+        [OptionalArg("verbose", "v")]
+        [ArgDescription(ResourceName = "ArgDesc_ShowVerboseOption")]
+        public bool Verbose { get; set; }
+
+        [OptionalArg("extra-verbose", "vv")]
+        [ArgDescription(ResourceName = "ArgDesc_ShowExtraVerboseOption")]
+        public bool ExtraVerbose { get; set; }
         #endregion
 
         #region Positional arguments
@@ -66,6 +96,11 @@ namespace ReportConverter
                 if (!string.IsNullOrWhiteSpace(NUnit3XmlFile))
                 {
                     of |= OutputFormats.NUnit3;
+                }
+
+                if (!string.IsNullOrWhiteSpace(SqliteDBFile))
+                {
+                    of |= OutputFormats.Sqlite;
                 }
 
                 return of;

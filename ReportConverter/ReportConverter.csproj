@@ -2,15 +2,15 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>net5.0;netcoreapp3.1;net48;net472;net461;net46;net452</TargetFrameworks>
-    <Version>1.0-beta</Version>
+    <TargetFrameworks>net5.0;netcoreapp3.1;net48;net472;net461</TargetFrameworks>
+    <Version>1.1</Version>
     <Authors>Micro Focus or one of its affiliates.</Authors>
     <Product>Micro Focus UFT One CI Utilities</Product>
     <Copyright>© Copyright 2021 Micro Focus or one of its affiliates.</Copyright>
     <Description>A command-line tool that converts UFT report to other formats.</Description>
     <RepositoryUrl>https://github.com/MicroFocus/ADM-FT-ToolsLauncher</RepositoryUrl>
-    <AssemblyVersion>1.0.21.1241</AssemblyVersion>
-    <FileVersion>1.0.21.1241</FileVersion>
+    <AssemblyVersion>1.1.716.451</AssemblyVersion>
+    <FileVersion>1.1.716.451</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net5.0|AnyCPU'">
@@ -34,6 +34,36 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
+    <PackageReference Include="Microsoft.Data.Sqlite">
+      <Version>5.0.7</Version>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+    <PackageReference Include="Microsoft.Data.Sqlite">
+      <Version>5.0.7</Version>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+    <PackageReference Include="Microsoft.Data.Sqlite">
+      <Version>5.0.7</Version>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
+    <PackageReference Include="Microsoft.Data.Sqlite">
+      <Version>5.0.7</Version>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
+    <PackageReference Include="Microsoft.Data.Sqlite">
+      <Version>5.0.7</Version>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

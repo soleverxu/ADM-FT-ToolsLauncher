@@ -117,9 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ErrMsg_CannotFindXmlReportFile" xml:space="preserve">
-    <value>Error: The XML report file 'run_results.xml' is not found.
-Please run test with "HTML Report" format to generate the XML report file.</value>
+  <data name="WarnMsg_CannotFindXmlReportFile" xml:space="preserve">
+    <value>Warning: The XML report file 'run_results.xml' is not found at: {0}</value>
   </data>
   <data name="ErrMsg_Input_InvalidGUITestIterationIndex" xml:space="preserve">
     <value>Error: The GUI test iteration index is invalid: {0}</value>
@@ -128,7 +127,7 @@ Please run test with "HTML Report" format to generate the XML report file.</valu
     <value>Failed to read 'testrun' report node from the Xml report.</value>
   </data>
   <data name="ErrMsg_JUnit_OutputSameAsInput" xml:space="preserve">
-    <value>Error: The output file cannot be same as the input file.</value>
+    <value>Error: The JUnit output file cannot be same as the input file.</value>
   </data>
   <data name="ErrMsg_Prefix" xml:space="preserve">
     <value>Error: </value>
@@ -353,7 +352,7 @@ Please run test with "HTML Report" format to generate the XML report file.</valu
   <data name="ArgDesc_InputFile" xml:space="preserve">
     <value>The path to a directory where the raw XML report can be found.
 
-  If the "aggregation" option is enabled, the program accepts multiple
+  If the "aggregate" option is enabled, the program accepts multiple
   paths to the directories.</value>
   </data>
   <data name="ArgDesc_JUnitFileOption" xml:space="preserve">
@@ -399,5 +398,128 @@ Please run test with "HTML Report" format to generate the XML report file.</valu
   <data name="Prog_Usage_SampleTitle" xml:space="preserve">
     <value>Sample {0}:</value>
     <comment>{0} is the number of the sample</comment>
+  </data>
+  <data name="ArgDesc_SqliteDBFileOption" xml:space="preserve">
+    <value>Convert the raw XML report to Sqlite database tables and
+    save the database to the specified file.
+
+    The "aggregate" option is turned on automatically when converting
+    to Sqlite database, even though the "aggregate" option is not
+    specified.</value>
+  </data>
+  <data name="ErrMsg_Sqlite_OutputCannotDir" xml:space="preserve">
+    <value>Error: The Sqlite output can't be a directory</value>
+  </data>
+  <data name="ErrMsg_Sqlite_OutputSameAsInput" xml:space="preserve">
+    <value>Error: The Sqlite output file cannot be same as the input file.</value>
+  </data>
+  <data name="ArgDesc_ShowExtraVerboseOption" xml:space="preserve">
+    <value>Show extra verbose output.</value>
+  </data>
+  <data name="ArgDesc_ShowVerboseOption" xml:space="preserve">
+    <value>Show verbose output.</value>
+  </data>
+  <data name="ErrMsg_Sqlite_DBNotConnect" xml:space="preserve">
+    <value>The Sqlite database is not connected, or connection is closed or broken.</value>
+  </data>
+  <data name="ErrorMsg_InvalidOptionalArgValue" xml:space="preserve">
+    <value>Error: The value is invalid for the option '{0}'</value>
+  </data>
+  <data name="InfoMsg_Sqlite_OutputGenerated" xml:space="preserve">
+    <value>The Sqlite database file is generated at: {0}</value>
+  </data>
+  <data name="VerbMsg_Sqlite_ConnectionClosed" xml:space="preserve">
+    <value>The connection to the Sqlite database is closed.</value>
+  </data>
+  <data name="VerbMsg_Sqlite_ConnectionOpened" xml:space="preserve">
+    <value>The connection to the Sqlite database is opened.</value>
+  </data>
+  <data name="VerbMsg_Sqlite_ConnectionString" xml:space="preserve">
+    <value>The Sqlite database connection string is: {0}</value>
+    <comment>{0} is the connection string of Sqlite DB</comment>
+  </data>
+  <data name="VerbMsg_Sqlite_CreateTableCommandText" xml:space="preserve">
+    <value>The SQL command to create table is:
+{0}</value>
+    <comment>{0} is the SQL command text</comment>
+  </data>
+  <data name="ErrMsg_Sqlite_CreateTableFailed" xml:space="preserve">
+    <value>Error: Failed to create the table: {0}</value>
+    <comment>{0} is the table name to be created</comment>
+  </data>
+  <data name="ErrMsg_Sqlite_InsertOneRecordFailed" xml:space="preserve">
+    <value>Error: The affected lines after running the SQL command to insert data is not 1.</value>
+  </data>
+  <data name="VerbMsg_Sqlite_NotFoundAutoIncrementId" xml:space="preserve">
+    <value>Can't find the auto-increment identifier in table: {0}</value>
+    <comment>{0} is table name</comment>
+  </data>
+  <data name="VerbMsg_Sqlite_PostProcTestResult" xml:space="preserve">
+    <value>Test result has been converted to database tables: {0}</value>
+    <comment>{0} is test and report name</comment>
+  </data>
+  <data name="VerbMsg_Sqlite_TableCreated" xml:space="preserve">
+    <value>Table is created: {0}</value>
+    <comment>{0} is table name</comment>
+  </data>
+  <data name="VerbMsg_Sqlite_TruncateDBFile" xml:space="preserve">
+    <value>The target Sqlite database file is truncated.</value>
+  </data>
+  <data name="ArgDesc_RecursiveOption" xml:space="preserve">
+    <value>Whether searches raw XML reports recursively in the directory.
+
+    This option is mostly working with the "aggregate" option to
+    search multiple raw XML reports.</value>
+  </data>
+  <data name="ArgDesc_SearchDepthOption" xml:space="preserve">
+    <value>The maximum depth to do recursive search in the directory.
+
+    This option is typically enabled with "recursive" option to set
+    the maximum depth of the search path. Defaults to 10 if this
+    option is not specified.</value>
+  </data>
+  <data name="VerbMsg_RawReportPathFound" xml:space="preserve">
+    <value>The raw XML report is found at: {0}</value>
+    <comment>{0} is raw XML report path</comment>
+  </data>
+  <data name="VerbMsg_RecusiveSearchingPath" xml:space="preserve">
+    <value>Searching the raw XML reports in the sub folders under: {0}</value>
+    <comment>{0} is searching path</comment>
+  </data>
+  <data name="VerbMsg_Sqlite_PreConvert" xml:space="preserve">
+    <value>Converting the raw XML report(s) to Sqlite database ...</value>
+  </data>
+  <data name="ErrMsg_Sqlite_AutoIncrementPropertyIsMissing" xml:space="preserve">
+    <value>Error: The table has auto-increment column, however, there is no property in the relevant data object.</value>
+  </data>
+  <data name="ErrMsg_Sqlite_ErrorBuildCommand" xml:space="preserve">
+    <value>Error: Failed to build the SQL command: {0}</value>
+    <comment>{0} is the description of the command builder</comment>
+  </data>
+  <data name="ErrMsg_Sqlite_InvalidRecordId" xml:space="preserve">
+    <value>Error: The {0} record Id is invalid when operating on the table '{1}'.</value>
+    <comment>{0} is record Id name; {1} is working table name</comment>
+  </data>
+  <data name="ErrMsg_Sqlite_NullValueNotAllowed" xml:space="preserve">
+    <value>Error: NULL value is not allowed in the column '{0}' in table '{1}'</value>
+    <comment>{0} is column name; {1} is table name</comment>
+  </data>
+  <data name="VerbMsg_Sqlite_CheckTableExistCommandText" xml:space="preserve">
+    <value>The SQL command to check table existence is:
+{0}</value>
+    <comment>{0} is the SQL command text</comment>
+  </data>
+  <data name="VerbMsg_Sqlite_FetchTableSequenceCommandText" xml:space="preserve">
+    <value>The SQL command to fetch table sequence is:
+{0}</value>
+    <comment>{0} is the SQL command text</comment>
+  </data>
+  <data name="VerbMsg_Sqlite_InsertTableCommandText" xml:space="preserve">
+    <value>The SQL command to insert table is:
+{0}</value>
+    <comment>{0} is the SQL command text</comment>
+  </data>
+  <data name="CompanyName" xml:space="preserve">
+    <value>Micro Focus or one of its affiliates.</value>
   </data>
 </root>

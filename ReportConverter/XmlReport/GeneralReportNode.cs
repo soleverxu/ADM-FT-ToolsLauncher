@@ -60,6 +60,9 @@ namespace ReportConverter.XmlReport
                 ErrorCode = Node.Data.ExitCodeSpecified ? Node.Data.ExitCode : 0;
             }
 
+            BottomFile = Node.Data.Extension?.BottomFilePath;
+            HTMLBottomFile = Node.Data.Extension?.HtmlBottomFilePath;
+
             return true;
         }
 
@@ -78,5 +81,7 @@ namespace ReportConverter.XmlReport
         public IEnumerable<TestedApplicationType> AUTs { get; protected set; }
         public string ErrorText { get; protected set; }
         public int ErrorCode { get; protected set; }
+        public string BottomFile { get; protected set; }
+        public string HTMLBottomFile { get; protected set; }
     }
 }
