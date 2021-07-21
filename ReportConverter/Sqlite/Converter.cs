@@ -123,6 +123,26 @@ namespace ReportConverter.Sqlite
                         return false;
                     }
                 }
+
+                // Contexts
+                DBSchema_1_0.Tables.UFTGUIHierarchy contextParentDataObject = iterationDataObject;
+                foreach (var contextReportNode in iterationReportNode.Contexts)
+                {
+                    if (!ConvertGUITestContextReport(contextReportNode, testResultDataObject, contextParentDataObject))
+                    {
+                        return false;
+                    }
+                }
+
+                // Steps
+                DBSchema_1_0.Tables.UFTGUIHierarchy stepParentDataObject = iterationDataObject;
+                foreach (var stepReportNode in iterationReportNode.Steps)
+                {
+                    if (!ConvertGUITestStepReport(stepReportNode, testResultDataObject, stepParentDataObject))
+                    {
+                        return false;
+                    }
+                }
             }
 
             return true;

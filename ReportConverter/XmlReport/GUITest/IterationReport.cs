@@ -11,11 +11,15 @@ namespace ReportConverter.XmlReport.GUITest
         public IterationReport(ReportNodeType node, IReportNodeOwner owner) : base(node, owner)
         {
             Actions = new ReportNodeCollection<ActionReport>(this, ReportNodeFactory.Instance);
+            Contexts = new ReportNodeCollection<ContextReport>(this, ReportNodeFactory.Instance);
+            Steps = new ReportNodeCollection<StepReport>(this, ReportNodeFactory.Instance);
 
             AllStepsEnumerator = new ReportNodeEnumerator<StepReport>();
         }
 
         public ReportNodeCollection<ActionReport> Actions { get; private set; }
+        public ReportNodeCollection<ContextReport> Contexts { get; private set; }
+        public ReportNodeCollection<StepReport> Steps { get; private set; }
 
         public ReportNodeEnumerator<StepReport> AllStepsEnumerator { get; private set; }
 
@@ -35,12 +39,32 @@ namespace ReportConverter.XmlReport.GUITest
             }
 
             // actions
+            Steps.Clear();
+            Contexts.Clear();
             Actions.Clear();
             ReportNodeType[] childNodes = Node.ReportNode;
             if (childNodes != null)
             {
                 foreach (ReportNodeType node in childNodes)
                 {
+                    // try to add as a step report
+                    StepReport step = Steps.TryParseAndAdd(node, this.Node);
+                    if (step != null)
+                    {
+                        AllStepsEnumerator.Add(step);
+                        AllStepsEnumerator.Merge(step.AllStepsEnumerator);
+                        continue;
+                    }
+
+                    // try to add as a context report
+                    ContextReport context = Contexts.TryParseAndAdd(node, this.Node);
+                    if (context != null)
+                    {
+                        AllStepsEnumerator.Merge(context.AllStepsEnumerator);
+                        continue;
+                    }
+
+                    // try to add as an action report
                     ActionReport action = Actions.TryParseAndAdd(node, this.Node);
                     if (action != null)
                     {

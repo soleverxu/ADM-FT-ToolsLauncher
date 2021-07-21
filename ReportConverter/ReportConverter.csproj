@@ -9,8 +9,8 @@
     <Copyright>© Copyright 2021 Micro Focus or one of its affiliates.</Copyright>
     <Description>A command-line tool that converts UFT report to other formats.</Description>
     <RepositoryUrl>https://github.com/MicroFocus/ADM-FT-ToolsLauncher</RepositoryUrl>
-    <AssemblyVersion>1.1.719.2023</AssemblyVersion>
-    <FileVersion>1.1.719.2023</FileVersion>
+    <AssemblyVersion>1.1.721.312</AssemblyVersion>
+    <FileVersion>1.1.721.312</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net5.0|AnyCPU'">
