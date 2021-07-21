@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace ReportConverter.Sqlite.DB.Schema_1_0.Tables
 {
-    [Table(nameof(UFTGUIStepHierarchy))]
-    partial class UFTGUIStepHierarchy
+    [Table(nameof(UFTGUIHierarchy))]
+    partial class UFTGUIHierarchy
     {
         [TableColumn("id", TableColumnDataType.Integer)]
         [TableColumnConstraint(PrimaryKeyConstraint = true, PrimaryKeyAutoIncrement = true)]
@@ -18,21 +18,6 @@ namespace ReportConverter.Sqlite.DB.Schema_1_0.Tables
         [TableColumnConstraint(NotNullConstraint = true, ForeignKeyConstraint = true,
             ForeignKeyRefTableName = nameof(TestResult), ForeignKeyRefTableColumnName = "id")]
         public long? TestResultID { get; set; }
-
-        [TableColumn("iteration_id", TableColumnDataType.Integer)]
-        [TableColumnConstraint(ForeignKeyConstraint = true,
-            ForeignKeyRefTableName = nameof(UFTGUIIteration), ForeignKeyRefTableColumnName = "id")]
-        public long? IterationID { get; set; }
-
-        [TableColumn("action_id", TableColumnDataType.Integer)]
-        [TableColumnConstraint(ForeignKeyConstraint = true,
-            ForeignKeyRefTableName = nameof(UFTGUIAction), ForeignKeyRefTableColumnName = "id")]
-        public long? ActionID { get; set; }
-
-        [TableColumn("action_iteration_id", TableColumnDataType.Integer)]
-        [TableColumnConstraint(ForeignKeyConstraint = true,
-            ForeignKeyRefTableName = nameof(UFTGUIActionIteration), ForeignKeyRefTableColumnName = "id")]
-        public long? ActionIterationID { get; set; }
 
         [TableColumn("elem_id", TableColumnDataType.Integer)]
         [TableColumnConstraint(ForeignKeyConstraint = true,
@@ -44,8 +29,11 @@ namespace ReportConverter.Sqlite.DB.Schema_1_0.Tables
 
         [TableColumn("parent_id", TableColumnDataType.Integer)]
         [TableColumnConstraint(ForeignKeyConstraint = true,
-            ForeignKeyRefTableName = nameof(UFTGUIStepHierarchy), ForeignKeyRefTableColumnName = "id")]
+            ForeignKeyRefTableName = nameof(UFTGUIHierarchy), ForeignKeyRefTableColumnName = "id")]
         public long? ParentID { get; set; }
+
+        [TableColumn("index", TableColumnDataType.Integer)]
+        public long? Index { get; set; }
 
         [TableColumn("test_obj_path", TableColumnDataType.Text)]
         public string TestObjectPath { get; set; }
@@ -69,15 +57,13 @@ namespace ReportConverter.Sqlite.DB.Schema_1_0.Tables
         }
     }
 
-    partial class UFTGUIStepHierarchy
+    partial class UFTGUIHierarchy
     {
-        public static UFTGUIStepHierarchy CreateDataObject(
+        public static UFTGUIHierarchy CreateDataObject(
             TestResult testResultDataObject,
-            UFTGUIIteration iterationDataObject,
-            UFTGUIAction actionDataObject,
-            UFTGUIActionIteration actionIterationDataObject,
             TestResultElement testResultElementDataObject,
-            UFTGUIStepHierarchy parentDataObject = null
+            long? index,
+            UFTGUIHierarchy parentDataObject = null
             )
         {
             if (testResultDataObject == null || testResultElementDataObject == null)
@@ -85,26 +71,22 @@ namespace ReportConverter.Sqlite.DB.Schema_1_0.Tables
                 return null;
             }
 
-            return new UFTGUIStepHierarchy
+            return new UFTGUIHierarchy
             {
                 TestResultID = testResultDataObject.ID,
-                IterationID = iterationDataObject?.ID,
-                ActionID = actionDataObject?.ID,
-                ActionIterationID = actionIterationDataObject?.ID,
                 TestResultElementID = testResultElementDataObject.ID,
                 TestResultElementType = testResultElementDataObject.Type,
-                ParentID = parentDataObject?.ID
+                ParentID = parentDataObject?.ID,
+                Index = index
             };
         }
 
-        public static UFTGUIStepHierarchy CreateDataObject(
+        public static UFTGUIHierarchy CreateDataObject(
             XmlReport.GUITest.StepReport stepReportNode,
             TestResult testResultDataObject,
-            UFTGUIIteration iterationDataObject,
-            UFTGUIAction actionDataObject,
-            UFTGUIActionIteration actionIterationDataObject,
             TestResultElement testResultElementDataObject,
-            UFTGUIStepHierarchy parentDataObject = null
+            long? index,
+            UFTGUIHierarchy parentDataObject = null
             )
         {
             if (stepReportNode == null)
@@ -112,8 +94,7 @@ namespace ReportConverter.Sqlite.DB.Schema_1_0.Tables
                 return null;
             }
 
-            UFTGUIStepHierarchy instance = CreateDataObject(testResultDataObject, iterationDataObject, actionDataObject,
-                actionIterationDataObject, testResultElementDataObject, parentDataObject);
+            UFTGUIHierarchy instance = CreateDataObject(testResultDataObject, testResultElementDataObject, index, parentDataObject);
 
             instance.TestObjectPath = stepReportNode.TestObjectPath;
             instance.TestObjectOperation = stepReportNode.TestObjectOperation;

@@ -20,10 +20,7 @@ namespace ReportConverter.Sqlite
             typeof(DBSchema_1_0.Tables.TestParameter),
             typeof(DBSchema_1_0.Tables.TestAUT),
             typeof(DBSchema_1_0.Tables.TestAUTAddition),
-            typeof(DBSchema_1_0.Tables.UFTGUIIteration),
-            typeof(DBSchema_1_0.Tables.UFTGUIAction),
-            typeof(DBSchema_1_0.Tables.UFTGUIActionIteration),
-            typeof(DBSchema_1_0.Tables.UFTGUIStepHierarchy),
+            typeof(DBSchema_1_0.Tables.UFTGUIHierarchy),
             typeof(DBSchema_1_0.Tables.UFTGUITOPath),
             typeof(DBSchema_1_0.Tables.UFTGUISIDProperty),
             typeof(DBSchema_1_0.Tables.UFTGUICheckpoint),
@@ -109,18 +106,19 @@ namespace ReportConverter.Sqlite
             foreach (var iterationReportNode in guiTestReport.Iterations)
             {
                 // fill data to tables for iteration report node
-                DBSchema_1_0.Tables.UFTGUIIteration iterationDataObject;
+                DBSchema_1_0.Tables.UFTGUIHierarchy iterationDataObject;
                 if (!FillTablesForGUIIteration(iterationReportNode, testResultDataObject, out iterationDataObject))
                 {
                     return false;
                 }
 
                 // Actions
+                DBSchema_1_0.Tables.UFTGUIHierarchy actionParentDataObject = iterationDataObject;
                 long actionIndex = 0;
                 foreach (var actionReportNode in iterationReportNode.Actions)
                 {
                     actionIndex++;
-                    if (!ConvertGUITestActionReport(actionReportNode, testResultDataObject, iterationDataObject, actionIndex))
+                    if (!ConvertGUITestActionReport(actionReportNode, testResultDataObject, actionParentDataObject, actionIndex))
                     {
                         return false;
                     }
@@ -133,9 +131,9 @@ namespace ReportConverter.Sqlite
         private static bool ConvertGUITestActionReport(
             XmlReport.GUITest.ActionReport actionReport,                    // raw data
             DBSchema_1_0.Tables.TestResult testResultDataObject,            // related test result data object
-            DBSchema_1_0.Tables.UFTGUIIteration iterationDataObject,        // related iteration data object
-            long index,                                                     // index of actions that all have same ancestors (starts with 1)
-            DBSchema_1_0.Tables.UFTGUIAction parentActionDataObject = null  // parent action data object
+            DBSchema_1_0.Tables.UFTGUIHierarchy parentDataObject,           // parent data object
+            long index                                                      // index of actions that all have same ancestors (starts with 1)
+
             )
         {
             if (actionReport == null || testResultDataObject == null)
@@ -144,45 +142,49 @@ namespace ReportConverter.Sqlite
             }
 
             // fill data to tables for action report node
-            DBSchema_1_0.Tables.UFTGUIAction actionDataObject;
-            if (!FillTablesForGUIAction(actionReport, testResultDataObject, iterationDataObject, parentActionDataObject, index, out actionDataObject))
+            DBSchema_1_0.Tables.UFTGUIHierarchy actionDataObject;
+            if (!FillTablesForGUIAction(actionReport, testResultDataObject, parentDataObject, index, out actionDataObject))
             {
                 return false;
             }
 
             // sub Actions
+            DBSchema_1_0.Tables.UFTGUIHierarchy subActionParentDataObject = actionDataObject;
             long subActionIndex = 0;
             foreach (var subActionReportNode in actionReport.SubActions)
             {
                 subActionIndex++;
-                if (!ConvertGUITestActionReport(subActionReportNode, testResultDataObject, iterationDataObject, subActionIndex, actionDataObject))
+                if (!ConvertGUITestActionReport(subActionReportNode, testResultDataObject, subActionParentDataObject, subActionIndex))
                 {
                     return false;
                 }
             }
 
             // Action Iterations
+            DBSchema_1_0.Tables.UFTGUIHierarchy actionIterationParentDataObject = actionDataObject;
             foreach (var actionIterationReportNode in actionReport.ActionIterations)
             {
-                if (!ConvertGUITestActionIterationReport(actionIterationReportNode, testResultDataObject, iterationDataObject, actionDataObject))
+                if (!ConvertGUITestActionIterationReport(actionIterationReportNode, testResultDataObject, actionIterationParentDataObject))
                 {
                     return false;
                 }
             }
 
             // Contexts
+            DBSchema_1_0.Tables.UFTGUIHierarchy contextParentDataObject = actionDataObject;
             foreach (var contextReportNode in actionReport.Contexts)
             {
-                if (!ConvertGUITestContextReport(contextReportNode, testResultDataObject, iterationDataObject, actionDataObject))
+                if (!ConvertGUITestContextReport(contextReportNode, testResultDataObject, contextParentDataObject))
                 {
                     return false;
                 }
             }
 
             // Steps
+            DBSchema_1_0.Tables.UFTGUIHierarchy stepParentDataObject = actionDataObject;
             foreach (var stepReportNode in actionReport.Steps)
             {
-                if (!ConvertGUITestStepReport(stepReportNode, testResultDataObject, iterationDataObject, actionDataObject))
+                if (!ConvertGUITestStepReport(stepReportNode, testResultDataObject, stepParentDataObject))
                 {
                     return false;
                 }
@@ -194,8 +196,7 @@ namespace ReportConverter.Sqlite
         private static bool ConvertGUITestActionIterationReport(
             XmlReport.GUITest.ActionIterationReport actionIterationReport,  // raw data
             DBSchema_1_0.Tables.TestResult testResultDataObject,            // related test result data object
-            DBSchema_1_0.Tables.UFTGUIIteration iterationDataObject,        // related iteration data object
-            DBSchema_1_0.Tables.UFTGUIAction actionDataObject               // related action data object
+            DBSchema_1_0.Tables.UFTGUIHierarchy parentDataObject            // parent data object
             )
         {
             if (actionIterationReport == null || testResultDataObject == null)
@@ -204,25 +205,27 @@ namespace ReportConverter.Sqlite
             }
 
             // fill data to tables for action iteration report node
-            DBSchema_1_0.Tables.UFTGUIActionIteration actionIterationDataObject;
-            if (!FillTablesForGUIActionIteration(actionIterationReport, testResultDataObject, iterationDataObject, actionDataObject, out actionIterationDataObject))
+            DBSchema_1_0.Tables.UFTGUIHierarchy actionIterationDataObject;
+            if (!FillTablesForGUIActionIteration(actionIterationReport, testResultDataObject, parentDataObject, out actionIterationDataObject))
             {
                 return false;
             }
 
             // Contexts
+            DBSchema_1_0.Tables.UFTGUIHierarchy contextParentDataObject = actionIterationDataObject;
             foreach (var contextReportNode in actionIterationReport.Contexts)
             {
-                if (!ConvertGUITestContextReport(contextReportNode, testResultDataObject, iterationDataObject, actionDataObject, actionIterationDataObject))
+                if (!ConvertGUITestContextReport(contextReportNode, testResultDataObject, contextParentDataObject))
                 {
                     return false;
                 }
             }
 
             // Steps
+            DBSchema_1_0.Tables.UFTGUIHierarchy stepParentDataObject = actionIterationDataObject;
             foreach (var stepReportNode in actionIterationReport.Steps)
             {
-                if (!ConvertGUITestStepReport(stepReportNode, testResultDataObject, iterationDataObject, actionDataObject, actionIterationDataObject))
+                if (!ConvertGUITestStepReport(stepReportNode, testResultDataObject, stepParentDataObject))
                 {
                     return false;
                 }
@@ -232,12 +235,9 @@ namespace ReportConverter.Sqlite
         }
 
         private static bool ConvertGUITestContextReport(
-            XmlReport.GUITest.ContextReport contextReport,                              // raw data
-            DBSchema_1_0.Tables.TestResult testResultDataObject,                        // related test result data object
-            DBSchema_1_0.Tables.UFTGUIIteration iterationDataObject,                    // related iteration data object
-            DBSchema_1_0.Tables.UFTGUIAction actionDataObject,                          // related action data object
-            DBSchema_1_0.Tables.UFTGUIActionIteration actionIterationDataObject = null, // related action iteration data object
-            DBSchema_1_0.Tables.UFTGUIStepHierarchy parentDataObject = null             // parent step hierarchy data object
+            XmlReport.GUITest.ContextReport contextReport,              // raw data
+            DBSchema_1_0.Tables.TestResult testResultDataObject,        // related test result data object
+            DBSchema_1_0.Tables.UFTGUIHierarchy parentDataObject        // parent data object
             )
         {
             if (contextReport == null || testResultDataObject == null)
@@ -246,28 +246,27 @@ namespace ReportConverter.Sqlite
             }
 
             // fill data to tables for context report node
-            DBSchema_1_0.Tables.UFTGUIStepHierarchy shrDataObject;
-            if (!FillTablesForGUIContext(contextReport, testResultDataObject, iterationDataObject, actionDataObject,
-                actionIterationDataObject, parentDataObject, out shrDataObject))
+            DBSchema_1_0.Tables.UFTGUIHierarchy contextDataObject;
+            if (!FillTablesForGUIContext(contextReport, testResultDataObject, parentDataObject, out contextDataObject))
             {
                 return false;
             }
 
             // sub Contexts
+            DBSchema_1_0.Tables.UFTGUIHierarchy subContextParentDataObject = contextDataObject;
             foreach (var subContextReportNode in contextReport.SubContexts)
             {
-                if (!ConvertGUITestContextReport(subContextReportNode, testResultDataObject, iterationDataObject, 
-                    actionDataObject, actionIterationDataObject, shrDataObject))
+                if (!ConvertGUITestContextReport(subContextReportNode, testResultDataObject, subContextParentDataObject))
                 {
                     return false;
                 }
             }
 
             // Steps
+            DBSchema_1_0.Tables.UFTGUIHierarchy stepParentDataObject = contextDataObject;
             foreach (var stepReportNode in contextReport.Steps)
             {
-                if (!ConvertGUITestStepReport(stepReportNode, testResultDataObject, iterationDataObject,
-                    actionDataObject, actionIterationDataObject, shrDataObject))
+                if (!ConvertGUITestStepReport(stepReportNode, testResultDataObject, stepParentDataObject))
                 {
                     return false;
                 }
@@ -277,12 +276,9 @@ namespace ReportConverter.Sqlite
         }
 
         private static bool ConvertGUITestStepReport(
-            XmlReport.GUITest.StepReport stepReport,                                    // raw data
-            DBSchema_1_0.Tables.TestResult testResultDataObject,                        // related test result data object
-            DBSchema_1_0.Tables.UFTGUIIteration iterationDataObject,                    // related iteration data object
-            DBSchema_1_0.Tables.UFTGUIAction actionDataObject,                          // related action data object
-            DBSchema_1_0.Tables.UFTGUIActionIteration actionIterationDataObject = null, // related action iteration data object
-            DBSchema_1_0.Tables.UFTGUIStepHierarchy parentDataObject = null             // parent step hierarchy data object
+            XmlReport.GUITest.StepReport stepReport,                    // raw data
+            DBSchema_1_0.Tables.TestResult testResultDataObject,        // related test result data object
+            DBSchema_1_0.Tables.UFTGUIHierarchy parentDataObject        // parent data object
             )
         {
             if (stepReport == null || testResultDataObject == null)
@@ -291,28 +287,27 @@ namespace ReportConverter.Sqlite
             }
 
             // fill data to tables for step report node
-            DBSchema_1_0.Tables.UFTGUIStepHierarchy shrDataObject;
-            if (!FillTablesForGUIStep(stepReport, testResultDataObject, iterationDataObject, actionDataObject,
-                actionIterationDataObject, parentDataObject, out shrDataObject))
+            DBSchema_1_0.Tables.UFTGUIHierarchy stepDataObject;
+            if (!FillTablesForGUIStep(stepReport, testResultDataObject, parentDataObject, out stepDataObject))
             {
                 return false;
             }
 
             // sub Steps
+            DBSchema_1_0.Tables.UFTGUIHierarchy subStepParentDataObject = stepDataObject;
             foreach (var subStepReportNode in stepReport.SubSteps)
             {
-                if (!ConvertGUITestStepReport(subStepReportNode, testResultDataObject, iterationDataObject,
-                    actionDataObject, actionIterationDataObject, shrDataObject))
+                if (!ConvertGUITestStepReport(subStepReportNode, testResultDataObject, subStepParentDataObject))
                 {
                     return false;
                 }
             }
 
             // Contexts
+            DBSchema_1_0.Tables.UFTGUIHierarchy contextParentDataObject = stepDataObject;
             foreach (var contextReportNode in stepReport.Contexts)
             {
-                if (!ConvertGUITestContextReport(contextReportNode, testResultDataObject, iterationDataObject,
-                    actionDataObject, actionIterationDataObject, shrDataObject))
+                if (!ConvertGUITestContextReport(contextReportNode, testResultDataObject, contextParentDataObject))
                 {
                     return false;
                 }
@@ -498,7 +493,7 @@ namespace ReportConverter.Sqlite
         private static bool FillTablesForGUIIteration(
             XmlReport.GUITest.IterationReport iterationReportNode,      // raw data
             DBSchema_1_0.Tables.TestResult ownerTestResultDataObject,   // referenced owner - test result data object
-            out DBSchema_1_0.Tables.UFTGUIIteration iterationDataObject // [out] data object after inserted to tables
+            out DBSchema_1_0.Tables.UFTGUIHierarchy iterationDataObject // [out] data object after inserted to tables
             )
         {
             iterationDataObject = null;
@@ -514,11 +509,11 @@ namespace ReportConverter.Sqlite
                 return false;
             }
 
-            // insert data to UFTGUIIteration table
-            iterationDataObject = DBSchema_1_0.Tables.UFTGUIIteration.CreateDataObject(
+            // insert data to UFTGUIHierarchy table
+            iterationDataObject = DBSchema_1_0.Tables.UFTGUIHierarchy.CreateDataObject(
                 ownerTestResultDataObject,
                 elemDataObject,
-                iterationReportNode);
+                iterationReportNode.Index);
             if (!DB.Database.InsertTable(iterationDataObject))
             {
                 return false;
@@ -530,10 +525,9 @@ namespace ReportConverter.Sqlite
         private static bool FillTablesForGUIAction(
             XmlReport.GUITest.ActionReport actionReportNode,                // raw data
             DBSchema_1_0.Tables.TestResult ownerTestResultDataObject,       // ref owner - test result data object
-            DBSchema_1_0.Tables.UFTGUIIteration ownerIterationDataObject,   // ref owner - gui iteration data object
-            DBSchema_1_0.Tables.UFTGUIAction ownerActionDataObject,         // ref owner - gui action data object
-            long index,                                                     // index of actions with same owner iteration and test result
-            out DBSchema_1_0.Tables.UFTGUIAction actionDataObject           // [out] data object after inserted to tables
+            DBSchema_1_0.Tables.UFTGUIHierarchy parentDataObject,           // ref parent - gui hierarchy data object
+            long index,                                                     // index of actions with same parent
+            out DBSchema_1_0.Tables.UFTGUIHierarchy actionDataObject        // [out] data object after inserted to tables
             )
         {
             actionDataObject = null;
@@ -549,13 +543,12 @@ namespace ReportConverter.Sqlite
                 return false;
             }
 
-            // insert data to UFTGUIAction table
-            actionDataObject = DBSchema_1_0.Tables.UFTGUIAction.CreateDataObject(
+            // insert data to UFTGUIHierarchy table
+            actionDataObject = DBSchema_1_0.Tables.UFTGUIHierarchy.CreateDataObject(
                 ownerTestResultDataObject,
-                ownerIterationDataObject,
                 elemDataObject,
                 index,
-                ownerActionDataObject
+                parentDataObject
                 );
             if (!DB.Database.InsertTable(actionDataObject))
             {
@@ -568,9 +561,8 @@ namespace ReportConverter.Sqlite
         private static bool FillTablesForGUIActionIteration(
             XmlReport.GUITest.ActionIterationReport actionIterationReportNode,      // raw data
             DBSchema_1_0.Tables.TestResult ownerTestResultDataObject,               // ref owner - test result data object
-            DBSchema_1_0.Tables.UFTGUIIteration ownerIterationDataObject,           // ref owner - gui iteration data object
-            DBSchema_1_0.Tables.UFTGUIAction ownerActionDataObject,                 // ref owner - gui action data object
-            out DBSchema_1_0.Tables.UFTGUIActionIteration actionIterationDataObject // [out] data object after inserted to tables
+            DBSchema_1_0.Tables.UFTGUIHierarchy parentDataObject,                   // ref parent - gui hierarchy data object
+            out DBSchema_1_0.Tables.UFTGUIHierarchy actionIterationDataObject       // [out] data object after inserted to tables
             )
         {
             actionIterationDataObject = null;
@@ -586,13 +578,12 @@ namespace ReportConverter.Sqlite
                 return false;
             }
 
-            // insert data to UFTGUIActionIteration table
-            actionIterationDataObject = DBSchema_1_0.Tables.UFTGUIActionIteration.CreateDataObject(
-                actionIterationReportNode,
+            // insert data to UFTGUIHierarchy table
+            actionIterationDataObject = DBSchema_1_0.Tables.UFTGUIHierarchy.CreateDataObject(
                 ownerTestResultDataObject,
-                ownerIterationDataObject,
-                ownerActionDataObject,
-                elemDataObject
+                elemDataObject,
+                actionIterationReportNode.Index,
+                parentDataObject
                 );
             if (!DB.Database.InsertTable(actionIterationDataObject))
             {
@@ -603,16 +594,13 @@ namespace ReportConverter.Sqlite
         }
 
         private static bool FillTablesForGUIContext(
-            XmlReport.GUITest.ContextReport contextReportNode,                          // raw data
-            DBSchema_1_0.Tables.TestResult ownerTestResultDataObject,                   // ref owner - test result data object
-            DBSchema_1_0.Tables.UFTGUIIteration ownerIterationDataObject,               // ref owner - gui iteration data object
-            DBSchema_1_0.Tables.UFTGUIAction ownerActionDataObject,                     // ref owner - gui action data object
-            DBSchema_1_0.Tables.UFTGUIActionIteration ownerActionIterationDataObject,   // ref owner - gui action iteration data object
-            DBSchema_1_0.Tables.UFTGUIStepHierarchy parentDataObject,                   // ref owner - parent hierarchy data object
-            out DBSchema_1_0.Tables.UFTGUIStepHierarchy shrDataObject                   // [out] data object after inserted to tables
+            XmlReport.GUITest.ContextReport contextReportNode,                      // raw data
+            DBSchema_1_0.Tables.TestResult ownerTestResultDataObject,               // ref owner - test result data object
+            DBSchema_1_0.Tables.UFTGUIHierarchy parentDataObject,                   // ref parent - gui hierarchy data object
+            out DBSchema_1_0.Tables.UFTGUIHierarchy contextDataObject               // [out] data object after inserted to tables
             )
         {
-            shrDataObject = null;
+            contextDataObject = null;
 
             // insert data to general tables for context report node
             DBSchema_1_0.Tables.TestResultElement elemDataObject;
@@ -625,16 +613,14 @@ namespace ReportConverter.Sqlite
                 return false;
             }
 
-            // insert data to UFTGUIStepHierarchy table
-            shrDataObject = DBSchema_1_0.Tables.UFTGUIStepHierarchy.CreateDataObject(
+            // insert data to UFTGUIHierarchy table
+            contextDataObject = DBSchema_1_0.Tables.UFTGUIHierarchy.CreateDataObject(
                 ownerTestResultDataObject,
-                ownerIterationDataObject,
-                ownerActionDataObject,
-                ownerActionIterationDataObject,
                 elemDataObject,
+                null,
                 parentDataObject
                 );
-            if (!DB.Database.InsertTable(shrDataObject))
+            if (!DB.Database.InsertTable(contextDataObject))
             {
                 return false;
             }
@@ -643,16 +629,13 @@ namespace ReportConverter.Sqlite
         }
 
         private static bool FillTablesForGUIStep(
-            XmlReport.GUITest.StepReport stepReportNode,                                // raw data
-            DBSchema_1_0.Tables.TestResult ownerTestResultDataObject,                   // ref owner - test result data object
-            DBSchema_1_0.Tables.UFTGUIIteration ownerIterationDataObject,               // ref owner - gui iteration data object
-            DBSchema_1_0.Tables.UFTGUIAction ownerActionDataObject,                     // ref owner - gui action data object
-            DBSchema_1_0.Tables.UFTGUIActionIteration ownerActionIterationDataObject,   // ref owner - gui action iteration data object
-            DBSchema_1_0.Tables.UFTGUIStepHierarchy parentDataObject,                   // ref owner - parent hierarchy data object
-            out DBSchema_1_0.Tables.UFTGUIStepHierarchy shrDataObject                   // [out] data object after inserted to tables
+            XmlReport.GUITest.StepReport stepReportNode,                            // raw data
+            DBSchema_1_0.Tables.TestResult ownerTestResultDataObject,               // ref owner - test result data object
+            DBSchema_1_0.Tables.UFTGUIHierarchy parentDataObject,                   // ref parent - gui hierarchy data object
+            out DBSchema_1_0.Tables.UFTGUIHierarchy stepDataObject                  // [out] data object after inserted to tables
             )
         {
-            shrDataObject = null;
+            stepDataObject = null;
 
             var checkpoint = XmlReport.GUITest.CheckpointReport.FromStepReport(stepReportNode);
 
@@ -674,17 +657,15 @@ namespace ReportConverter.Sqlite
                 return false;
             }
 
-            // insert data to UFTGUIStepHierarchy table
-            shrDataObject = DBSchema_1_0.Tables.UFTGUIStepHierarchy.CreateDataObject(
+            // insert data to UFTGUIHierarchy table
+            stepDataObject = DBSchema_1_0.Tables.UFTGUIHierarchy.CreateDataObject(
                 stepReportNode,
                 ownerTestResultDataObject,
-                ownerIterationDataObject,
-                ownerActionDataObject,
-                ownerActionIterationDataObject,
                 elemDataObject,
+                null,
                 parentDataObject
                 );
-            if (!DB.Database.InsertTable(shrDataObject))
+            if (!DB.Database.InsertTable(stepDataObject))
             {
                 return false;
             }
@@ -697,7 +678,7 @@ namespace ReportConverter.Sqlite
                 foreach (var toPathObj in stepReportNode.TestObjectPathObjects)
                 {
                     index++;
-                    dataObjectList.Add(DBSchema_1_0.Tables.UFTGUITOPath.CreateDataObject(toPathObj, shrDataObject, index));
+                    dataObjectList.Add(DBSchema_1_0.Tables.UFTGUITOPath.CreateDataObject(toPathObj, stepDataObject, index));
                 }
 
                 if (!DB.Database.InsertTable(dataObjectList.ToArray()))
@@ -712,14 +693,14 @@ namespace ReportConverter.Sqlite
             {
                 foreach (var basicSID in stepReportNode.SmartIdentification.SIDBasicProperties.Properties)
                 {
-                    sidPropsDataObjectList.Add(DBSchema_1_0.Tables.UFTGUISIDProperty.CreateDataObject(basicSID, shrDataObject));
+                    sidPropsDataObjectList.Add(DBSchema_1_0.Tables.UFTGUISIDProperty.CreateDataObject(basicSID, stepDataObject));
                 }
             }
             if (stepReportNode.SmartIdentification?.SIDOptionalProperties != null)
             {
                 foreach (var optSID in stepReportNode.SmartIdentification.SIDOptionalProperties)
                 {
-                    sidPropsDataObjectList.Add(DBSchema_1_0.Tables.UFTGUISIDProperty.CreateDataObject(optSID, shrDataObject));
+                    sidPropsDataObjectList.Add(DBSchema_1_0.Tables.UFTGUISIDProperty.CreateDataObject(optSID, stepDataObject));
                 }
             }
             if (!DB.Database.InsertTable(sidPropsDataObjectList.ToArray()))
@@ -731,7 +712,7 @@ namespace ReportConverter.Sqlite
             if (checkpoint != null)
             {
                 // insert data to UFTGUICheckpoint table
-                var checkpointDataObject = DBSchema_1_0.Tables.UFTGUICheckpoint.CreateDataObject(checkpoint, shrDataObject);
+                var checkpointDataObject = DBSchema_1_0.Tables.UFTGUICheckpoint.CreateDataObject(checkpoint, stepDataObject);
                 if (!DB.Database.InsertTable(checkpointDataObject))
                 {
                     return false;

@@ -11,27 +11,24 @@ The table name begins with **Test** generally contains the information for all t
 
 | Table | Description |
 | ---- | ---- |
-| [Metadata](#tbl_metadata) | Consists of the properties that describe the metadata of the Sqlite database. |
-| [TestResult](#tbl_test_result) | Consists of the information of the test results. |
-| [TestResultElement](#tbl_test_result_element) | Consists of the information of all the elements in test results. |
-| [TestParameter](#tbl_test_param) | Consists of the parameters of test results and test result elements. |
-| [TestAUT](#tbl_test_aut) | Consists of the application under test (AUT) associated with the test results and test result elements. |
-| [TestAUTAddition](#tbl_test_aut_addition) | Consists of the additional information of the application under test (AUT) associated with the test results and test result elements. |
-| [UFTGUIIteration](#tbl_uft_gui_iteration) | Consists of the information of the **UFT One GUI Test Iteration** test result elements. |
-| [UFTGUIAction](#tbl_uft_gui_action) | Consists of the information of the **UFT One GUI Test Action** test result elements. |
-| [UFTGUIActionIteration](#tbl_uft_gui_action_iteration) | Consists of the information of the **UFT One GUI Test Action Iteration** test result elements. |
-| [UFTGUIStepHierarchy](#tbl_uft_gui_step_hierarchy) | Consists of the particular **UFT One GUI Test** result elements which make up the hierarchy of the GUI test steps. |
-| [UFTGUITOPath](#tbl_uft_gui_test_obj_path) | Consists of the information of the test object path in **UFT One GUI Test**. |
-| [UFTGUISIDProperty](#tbl_uft_gui_sid_prop) | Consists of the smart identification properties associated with the **UFT One GUI Test Step**. |
-| [UFTGUICheckpoint](#tbl_uft_gui_checkpoint) | Consists of the information of the checkpoint in **UFT One GUI Test**. |
-| [UFTGUICheckpointProperty](#tbl_uft_gui_checkpoint_property) | Consists of the information of the checkpoint properties in **UFT One GUI Test**. |
-| [UFTAPIIteration](#tbl_uft_api_iteration) | Consists of the information of the **UFT One API Test Iteration** test result elements. |
-| [UFTAPIActivity](#tbl_uft_api_activity) | Consists of the information of the **UFT One API Test Activity** test result elements. |
-| [UFTAPIActivityCheckpoint](#tbl_uft_api_activity_checkpoint) | Consists of the information of the **UFT One API Test Activity** checkpoints. |
-| [UFTAPIActivityDetail](#tbl_uft_api_activity_detail) | Consists of the detail information of the **UFT One API Test Activity** test result elements. |
-| [UFTBPTHierarchy](#tbl_uft_bpt_hierarchy) | Consists of the **UFT One Business Process Test (BPT)** result elements which make up the hierarchy of the BPT tests. |
-| [UFTBPTBCStep](#tbl_uft_bpt_bc_step) | Consists of the information of the **UFT One Business Process Test (BPT)** Business Component steps. |
-| [UFTBPTBCStepTOPath](#tbl_uft_bpt_bc_step_test_obj_path) | Consists of the information of the test object path in **UFT One Business Process Test (BPT)** Business Component steps. |
+| [Metadata](#tbl_metadata) | Consist of the properties that describe the metadata of the Sqlite database. |
+| [TestResult](#tbl_test_result) | Consist of the information of the test results. |
+| [TestResultElement](#tbl_test_result_element) | Consist of the information of all the elements in test results. |
+| [TestParameter](#tbl_test_param) | Consist of the parameters of test results and test result elements. |
+| [TestAUT](#tbl_test_aut) | Consist of the application under test (AUT) associated with the test results and test result elements. |
+| [TestAUTAddition](#tbl_test_aut_addition) | Consist of the additional information of the application under test (AUT) associated with the test results and test result elements. |
+| [UFTGUIHierarchy](#tbl_uft_gui_hierarchy) | Consist of the **UFT One GUI Test** result elements which make up the hierarchy of the GUI tests. |
+| [UFTGUITOPath](#tbl_uft_gui_test_obj_path) | Consist of the information of the test object path in **UFT One GUI Test**. |
+| [UFTGUISIDProperty](#tbl_uft_gui_sid_prop) | Consist of the smart identification properties associated with the **UFT One GUI Test Step**. |
+| [UFTGUICheckpoint](#tbl_uft_gui_checkpoint) | Consist of the information of the checkpoint in **UFT One GUI Test**. |
+| [UFTGUICheckpointProperty](#tbl_uft_gui_checkpoint_property) | Consist of the information of the checkpoint properties in **UFT One GUI Test**. |
+| [UFTAPIIteration](#tbl_uft_api_iteration) | Consist of the information of the **UFT One API Test Iteration** test result elements. |
+| [UFTAPIActivity](#tbl_uft_api_activity) | Consist of the information of the **UFT One API Test Activity** test result elements. |
+| [UFTAPIActivityCheckpoint](#tbl_uft_api_activity_checkpoint) | Consist of the information of the **UFT One API Test Activity** checkpoints. |
+| [UFTAPIActivityDetail](#tbl_uft_api_activity_detail) | Consist of the detail information of the **UFT One API Test Activity** test result elements. |
+| [UFTBPTHierarchy](#tbl_uft_bpt_hierarchy) | Consist of the **UFT One Business Process Test (BPT)** result elements which make up the hierarchy of the BPT tests. |
+| [UFTBPTBCStep](#tbl_uft_bpt_bc_step) | Consist of the information of the **UFT One Business Process Test (BPT)** Business Component steps. |
+| [UFTBPTBCStepTOPath](#tbl_uft_bpt_bc_step_test_obj_path) | Consist of the information of the test object path in **UFT One Business Process Test (BPT)** Business Component steps. |
 
 
 ### <a name="tbl_metadata"></a>Metadata Table
@@ -70,6 +67,7 @@ The **TestResult** table consists of the information of the test results. Each r
 | start_time | TEXT | | The date and time expressed according to [ISO 8601][iso-8601] that describes the local data and time when the test run starts. |
 | start_unix_time | INTEGER | | The **Unix time** (the number of seconds since 1970-01-01 00:00:00 UTC) that describes the local data and time when the test run starts. |
 | duration_seconds | NUMERIC | **DEFAULT 0** | The seconds indicates how long the test is run. |
+| status | TEXT | | The run status of the test result.<br/><br/>The status might be one of the following values (always in upper case): `FAILED`, `WARNING`, `INFORMATION`, `PASSED`, `DONE`, *NULL*. |
 | env_hostname | TEXT | | The hostname of the machine on which the test is running. |
 | env_locale | TEXT | | The locale setting of the machine on which the test is running. |
 | env_time_zone | TEXT | | The time zone setting of the machine on which the test is running. |
@@ -92,12 +90,12 @@ A **test result element** is a *ReportNode* in the raw test result XML, and toge
 | type | TEXT | **NOT NULL** | The type of the test result element which is typically the combination of the test type and the element type, always in upper case. For example, `UFT_GUI_ITERATION`, `UFT_API_ACTIVITY`, `UFT_BPT_FLOW` and so on. |
 | name | TEXT | | The name of the test result element. |
 | desc | TEXT | | The description of the test result element. |
-| status | TEXT | | The run status of the test result element.<br/><br/>The status might be one of the following values (always in lower case): `failed`, `warning`, `information`, `passed`, `done`, *NULL*. |
+| status | TEXT | | The run status of the test result element.<br/><br/>The status might be one of the following values (always in upper case): `FAILED`, `WARNING`, `INFORMATION`, `PASSED`, `DONE`, *NULL*. | |
 | start_time | TEXT | | The date and time expressed according to [ISO 8601][iso-8601] that describes the local data and time when the test element starts. |
 | start_unix_time | INTEGER | | The **Unix time** (the number of seconds since 1970-01-01 00:00:00 UTC) that describes the local data and time when the test element starts. |
 | duration_seconds | NUMERIC | **DEFAULT 0** | The seconds represents the running period of the test result element. |
-| error_text | TEXT | | The error text if the **status** is `failed`. |
-| error_code | NUMERIC | | The error code if the **status** is `failed`. The value `0` means not an error. |
+| error_text | TEXT | | The error text if the **status** is `FAILED`. |
+| error_code | NUMERIC | | The error code if the **status** is `FAILED`. The value `0` means not an error. |
 | bottom_file | TEXT | | The file name or path that contains the test result element information. |
 | html_bottom_file | TEXT | | The file name or path that contains the test result element information, for HTML purpose. |
 
@@ -143,61 +141,22 @@ The **TestAUTAddition** table consists of the additional information of the appl
 | index | INTEGER | | The number starts with `1` indicates the index of the AUT additional information for the same test AUT. |
 
 
-### <a name="tbl_uft_gui_iteration"></a>UFTGUIIteration Table
-The **UFTGUIIteration** table consists of the information of the **UFT One GUI Test Iteration** test result elements. The element type is `UFT_GUI_ITERATION`.
+### <a name="tbl_uft_gui_hierarchy"></a>UFTGUIHierarchy Table
+The **UFTGUIHierarchy** table consists of the **UFT One GUI Test** result elements which make up the hierarchy of the GUI tests. Each row in the table represents a hierarchy element which is one of the GUI test result elements: `UFT_GUI_ITERATION`, `UFT_GUI_ACTION`, `UFT_GUI_ACTION_ITERATION`, `UFT_GUI_CONTEXT`, `UFT_GUI_STEP`, `UFT_GUI_CHECKPOINT`.
 
 | Column | Data Type | Constraints | Description |
 | ---- | ---- | ---- | ---- |
-| id | INTEGER | **PRIMARY KEY**,<br/>**AUTOINCREMENT** | The identifier of the record in the table represents the **UFT One GUI Test Iteration**. |
-| result_id | INTEGER | **NOT NULL**,<br/>**FOREIGN KEY REFERENCES TestResult(id)** | The identifier of the record in the [TestResult](#tbl_test_result) table represents the test result that owns the current iteration. |
-| elem_id | INTEGER | **FOREIGN KEY REFERENCES TestResultElement(id)** | The identifier of the record in the [TestResultElement](#tbl_test_result_element) table represents the test result element associated with the current iteration. |
-| index | INTEGER | | The number starts with `1` represents the index of the iterations for the same test result. |
-
-
-### <a name="tbl_uft_gui_action"></a>UFTGUIAction Table
-The **UFTGUIAction** table consists of the information of the **UFT One GUI Test Action** test result elements. The element type is `UFT_GUI_ACTION`.
-
-| Column | Data Type | Constraints | Description |
-| ---- | ---- | ---- | ---- |
-| id | INTEGER | **PRIMARY KEY**,<br/>**AUTOINCREMENT** | The identifier of the record in the table represents the **UFT One GUI Test Action**. |
-| result_id | INTEGER | **NOT NULL**,<br/>**FOREIGN KEY REFERENCES TestResult(id)** | The identifier of the record in the [TestResult](#tbl_test_result) table represents the test result that owns the current action. |
-| iteration_id | INTEGER | **FOREIGN KEY REFERENCES UFTGUIIteration(id)** | The identifier of the record in the [UFTGUIIteration](#tbl_uft_gui_iteration) table represents the GUI test iteration that owns the current action. |
-| elem_id | INTEGER | **FOREIGN KEY REFERENCES TestResultElement(id)** | The identifier of the record in the [TestResultElement](#tbl_test_result_element) table represents the test result element associated with the current action. |
-| parent_id | INTEGER | **FOREIGN KEY REFERENCES UFTGUIAction(id)** | The identifier of the record in the [UFTGUIAction](#tbl_uft_gui_action) table represents the GUI test action that owns the current action as the parent. |
-| index | INTEGER | | The number starts with `1` represents the index of the actions with the same owner iteration. |
-
-
-### <a name="tbl_uft_gui_action_iteration"></a>UFTGUIActionIteration Table
-The **UFTGUIActionIteration** table consists of the information of the **UFT One GUI Test Action Iteration** test result elements. The element type is `UFT_GUI_ACTION_ITERATION`.
-
-| Column | Data Type | Constraints | Description |
-| ---- | ---- | ---- | ---- |
-| id | INTEGER | **PRIMARY KEY**,<br/>**AUTOINCREMENT** | The identifier of the record in the table represents the **UFT One GUI Test Action Iteration**. |
-| result_id | INTEGER | **NOT NULL**,<br/>**FOREIGN KEY REFERENCES TestResult(id)** | The identifier of the record in the [TestResult](#tbl_test_result) table represents the test result that owns the current action iteration. |
-| iteration_id | INTEGER | **FOREIGN KEY REFERENCES UFTGUIIteration(id)** | The identifier of the record in the [UFTGUIIteration](#tbl_uft_gui_iteration) table represents the GUI test iteration that owns the current action iteration. |
-| action_id | INTEGER | **FOREIGN KEY REFERENCES UFTGUIAction(id)** | The identifier of the record in the [UFTGUIAction](#tbl_uft_gui_action) table represents the GUI test action that owns the current action iteration. |
-| elem_id | INTEGER | **FOREIGN KEY REFERENCES TestResultElement(id)** | The identifier of the record in the [TestResultElement](#tbl_test_result_element) table represents the test result element associated with the current action iteration. |
-| index | INTEGER | | The number starts with `1` represents the index of the action iteration. |
-
-
-### <a name="tbl_uft_gui_step_hierarchy"></a>UFTGUIStepHierarchy Table
-The **UFTGUIStepHierarchy** table consists of the particular **UFT One GUI Test** result elements which make up the hierarchy of the GUI test steps. Each row in the table represents a hierarchy element which is one of the GUI result elements: `UFT_GUI_CONTEXT`, `UFT_GUI_STEP`, `UFT_GUI_CHECKPOINT`.
-
-| Column | Data Type | Constraints | Description |
-| ---- | ---- | ---- | ---- |
-| id | INTEGER | **PRIMARY KEY**,<br/>**AUTOINCREMENT** | The identifier of the record in the table represents the **UFT One GUI Test** step hierarchy element. |
-| result_id | INTEGER | **NOT NULL**,<br/>**FOREIGN KEY REFERENCES TestResult(id)** | The identifier of the record in the [TestResult](#tbl_test_result) table represents the test result that owns the current GUI Test step hierarchy element. |
-| iteration_id | INTEGER | **FOREIGN KEY REFERENCES UFTGUIIteration(id)** | The identifier of the record in the [UFTGUIIteration](#tbl_uft_gui_iteration) table represents the GUI test iteration that owns the current GUI Test step hierarchy element. |
-| action_id | INTEGER | **FOREIGN KEY REFERENCES UFTGUIAction(id)** | The identifier of the record in the [UFTGUIAction](#tbl_uft_gui_action) table represents the GUI test action that owns the current GUI Test step hierarchy element. |
-| action_iteration_id | INTEGER | **FOREIGN KEY REFERENCES UFTGUIActionIteration(id)** | The identifier of the record in the [UFTGUIActionIteration](#tbl_uft_gui_action_iteration) table represents the GUI test action iteration that owns the current GUI Test step hierarchy element. |
-| elem_id | INTEGER | **FOREIGN KEY REFERENCES TestResultElement(id)** | The identifier of the record in the [TestResultElement](#tbl_test_result_element) table represents the test result element associated with the current GUI Test step hierarchy element. |
+| id | INTEGER | **PRIMARY KEY**,<br/>**AUTOINCREMENT** | The identifier of the record in the table represents the **UFT One GUI Test** hierarchy element. |
+| result_id | INTEGER | **NOT NULL**,<br/>**FOREIGN KEY REFERENCES TestResult(id)** | The identifier of the record in the [TestResult](#tbl_test_result) table represents the test result that owns the current GUI Test hierarchy element. |
+| elem_id | INTEGER | **FOREIGN KEY REFERENCES TestResultElement(id)** | The identifier of the record in the [TestResultElement](#tbl_test_result_element) table represents the test result element associated with the current GUI Test hierarchy element. |
 | elem_type | TEXT | | The type of the test result element which is typically the combination of the test type and the element type, always in upper case.<br/><br/>This is the duplicate of the column `type` in the [TestResultElement](#tbl_test_result_element) table for fast query. |
-| parent_id | INTEGER | **FOREIGN KEY REFERENCES UFTGUIStepHierarchy(id)** | The identifier of the record in the [UFTGUIStepHierarchy](#tbl_uft_gui_step_hierarchy) table represents the GUI Test step hierarchy element that owns the current GUI Test step hierarchy element as the parent. |
-| test_obj_path | TEXT | | The full path of the test object associated with the current GUI Test step hierarchy element. For example, `Window("Notepad").WinMenu("Menu")`. |
-| test_obj_op | TEXT | | The operation of the test object associated with the current GUI Test step hierarchy element. |
-| test_obj_op_data | BLOB | | The operation data of the test object associated with the current GUI Test step hierarchy element. |
-| is_sid | INTEGER | | Indicates whether the smart identification is enabled and took effect. Any number greater than `0` represents the smart identification is enabled. |
-| sid_basic_match | INTEGER | | The number of the smart identification properties that match the test object's properties. |
+| parent_id | INTEGER | **FOREIGN KEY REFERENCES UFTGUIHierarchy(id)** | The identifier of the record in the [UFTGUIHierarchy](#tbl_uft_gui_hierarchy) table represents the GUI Test hierarchy element that owns the current GUI Test hierarchy element as the parent. |
+| index | INTEGER | | The number starts with `1` represents the index of the GUI Test hierarchy elements with the same parent or *NULL*, if the element type is `UFT_GUI_ITERATION`, `UFT_GUI_ACTION` or `UFT_GUI_ACTION_ITERATION`. |
+| test_obj_path | TEXT | | The full path of the test object associated with the current GUI Test hierarchy element, if the element type is `UFT_GUI_STEP` or `UFT_GUI_CHECKPOINT`. For example, `Window("Notepad").WinMenu("Menu")`. |
+| test_obj_op | TEXT | | The operation of the test object associated with the current GUI Test hierarchy element, if the element type is `UFT_GUI_STEP` or `UFT_GUI_CHECKPOINT`. |
+| test_obj_op_data | BLOB | | The operation data of the test object associated with the current GUI Test hierarchy element, if the element type is `UFT_GUI_STEP` or `UFT_GUI_CHECKPOINT`. |
+| is_sid | INTEGER | | Indicates whether the smart identification is enabled and took effect, if the element type is `UFT_GUI_STEP` or `UFT_GUI_CHECKPOINT`. Any number greater than `0` represents the smart identification is enabled. |
+| sid_basic_match | INTEGER | | The number of the smart identification properties that match the test object's properties, if the element type is `UFT_GUI_STEP` or `UFT_GUI_CHECKPOINT`. |
 
 
 ### <a name="tbl_uft_gui_test_obj_path"></a>UFTGUITOPath Table
@@ -206,19 +165,19 @@ The **UFTGUITOPath** table consists of the information of the test object path i
 | Column | Data Type | Constraints | Description |
 | ---- | ---- | ---- | ---- |
 | id | INTEGER | **PRIMARY KEY**,<br/>**AUTOINCREMENT** | The identifier of the record in the table represents the test object path information. |
-| step_hierarchy_id | INTEGER | **NOT NULL**,<br/>**FOREIGN KEY REFERENCES UFTGUIStepHierarchy(id)** | The identifier of the record in the [UFTGUIStepHierarchy](#tbl_uft_gui_step_hierarchy) table represents the GUI test step that owns the current test object path. |
+| hierarchy_id | INTEGER | **NOT NULL**,<br/>**FOREIGN KEY REFERENCES UFTGUIHierarchy(id)** | The identifier of the record in the [UFTGUIHierarchy](#tbl_uft_gui_hierarchy) table represents the GUI test hierarchy element that owns the current test object path. |
 | name | TEXT | | The name of the test object path. |
 | type | TEXT | | The type of the test object path. For example, `Window` or `Page`. |
-| index | INTEGER | | The number starts with `1` represents the sequence of the test object path for the same step.<br/><br/>The index is commonly used to indicate the hierarchy level of the test objects. For example, index `1` indicates that the test object path describes the top-level test object such as `Window` test object.  |
+| index | INTEGER | | The number starts with `1` represents the sequence of the test object path for the same GUI test hierarchy element.<br/><br/>The index is commonly used to indicate the hierarchy level of the test objects. For example, index `1` indicates that the test object path describes the top-level test object such as `Window` test object.  |
 
 
 ### <a name="tbl_uft_gui_sid_prop"></a>UFTGUISIDProperty Table
-The **UFTGUISIDProperty** table consists of the smart identification properties associated with the **UFT One GUI Test Step**.
+The **UFTGUISIDProperty** table consists of the smart identification properties associated with the **UFT One GUI Test Step** or **UFT One GUI Test Checkpoint**.
 
 | Column | Data Type | Constraints | Description |
 | ---- | ---- | ---- | ---- |
 | id | INTEGER | **PRIMARY KEY**,<br/>**AUTOINCREMENT** | The identifier of the record in the table represents the smart identification property. |
-| step_hierarchy_id | INTEGER | **NOT NULL**,<br/>**FOREIGN KEY REFERENCES UFTGUIStepHierarchy(id)** | The identifier of the record in the [UFTGUIStepHierarchy](#tbl_uft_gui_step_hierarchy) table represents the GUI test step that owns the current smart identification property. |
+| hierarchy_id | INTEGER | **NOT NULL**,<br/>**FOREIGN KEY REFERENCES UFTGUIHierarchy(id)** | The identifier of the record in the [UFTGUIHierarchy](#tbl_uft_gui_hierarchy) table represents the GUI test hierarchy element that owns the current smart identification property. |
 | category | TEXT | | The category of the smart identification property, either `BASIC` or `OPTIONAL`, always in upper case. |
 | name | TEXT | | The name of the smart identification property. |
 | value | BLOB | | The value of the smart identification property. |
@@ -232,9 +191,9 @@ The **UFTGUICheckpoint** table consists of the information of the checkpoint in 
 | Column | Data Type | Constraints | Description |
 | ---- | ---- | ---- | ---- |
 | id | INTEGER | **PRIMARY KEY**,<br/>**AUTOINCREMENT** | The identifier of the record in the table represents the GUI test checkpoint. |
-| step_hierarchy_id | INTEGER | **NOT NULL**,<br/>**FOREIGN KEY REFERENCES UFTGUIStepHierarchy(id)** | The identifier of the record in the [UFTGUIStepHierarchy](#tbl_uft_gui_step_hierarchy) table represents the GUI test step hierarchy for the current GUI test checkpoint.<br/><br/>The record in this table has the one-one relationship with the record in the [UFTGUIStepHierarchy](#tbl_uft_gui_step_hierarchy) table. |
+| hierarchy_id | INTEGER | **NOT NULL**,<br/>**FOREIGN KEY REFERENCES UFTGUIHierarchy(id)** | The identifier of the record in the [UFTGUIHierarchy](#tbl_uft_gui_hierarchy) table represents the GUI test hierarchy element for the current GUI test checkpoint.<br/><br/>The record in this table has the one-one relationship with the record in the [UFTGUIHierarchy](#tbl_uft_gui_hierarchy) table. |
 | elem_id | INTEGER | **FOREIGN KEY REFERENCES TestResultElement(id)** | The identifier of the record in the [TestResultElement](#tbl_test_result_element) table represents the test result element associated with the current GUI test checkpoint. |
-| fail_desc | TEXT | | The well-organized description of the checkpoint if the status is `failed`. |
+| fail_desc | TEXT | | The well-organized description of the checkpoint if the status is `FAILED`. |
 | type | TEXT | | The primary type of the checkpoint. |
 | subtype | TEXT | | The secondary (sub) type of the checkpoint. |
 | short_desc | TEXT | | The short description of the checkpoint. |

@@ -14,10 +14,10 @@ namespace ReportConverter.Sqlite.DB.Schema_1_0.Tables
         [TableColumnConstraint(PrimaryKeyConstraint = true, PrimaryKeyAutoIncrement = true)]
         public long ID { get; set; }
 
-        [TableColumn("step_hierarchy_id", TableColumnDataType.Integer)]
+        [TableColumn("hierarchy_id", TableColumnDataType.Integer)]
         [TableColumnConstraint(NotNullConstraint = true, ForeignKeyConstraint = true,
-            ForeignKeyRefTableName = nameof(UFTGUIStepHierarchy), ForeignKeyRefTableColumnName = "id")]
-        public long? StepHierarchyID { get; set; }
+            ForeignKeyRefTableName = nameof(UFTGUIHierarchy), ForeignKeyRefTableColumnName = "id")]
+        public long? HierarchyID { get; set; }
 
         [TableColumn("elem_id", TableColumnDataType.Integer)]
         [TableColumnConstraint(ForeignKeyConstraint = true,
@@ -148,17 +148,17 @@ namespace ReportConverter.Sqlite.DB.Schema_1_0.Tables
 
     partial class UFTGUICheckpoint
     {
-        public static UFTGUICheckpoint CreateDataObject(XmlReport.GUITest.CheckpointReport checkpointReportNode, UFTGUIStepHierarchy shrDataObject)
+        public static UFTGUICheckpoint CreateDataObject(XmlReport.GUITest.CheckpointReport checkpointReportNode, UFTGUIHierarchy hierarchyDataObject)
         {
-            if (checkpointReportNode == null || shrDataObject == null)
+            if (checkpointReportNode == null || hierarchyDataObject == null)
             {
                 return null;
             }
 
             return new UFTGUICheckpoint
             {
-                StepHierarchyID = shrDataObject.ID,
-                TestResultElementID = shrDataObject.TestResultElementID,
+                HierarchyID = hierarchyDataObject.ID,
+                TestResultElementID = hierarchyDataObject.TestResultElementID,
                 FailDescription = checkpointReportNode.FailedDescription,
                 Type = checkpointReportNode.Detail?.Type,
                 SubType = checkpointReportNode.Detail?.CheckpointSubType,

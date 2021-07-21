@@ -14,10 +14,10 @@ namespace ReportConverter.Sqlite.DB.Schema_1_0.Tables
         [TableColumnConstraint(PrimaryKeyConstraint = true, PrimaryKeyAutoIncrement = true)]
         public long ID { get; set; }
 
-        [TableColumn("step_hierarchy_id", TableColumnDataType.Integer)]
+        [TableColumn("hierarchy_id", TableColumnDataType.Integer)]
         [TableColumnConstraint(NotNullConstraint = true, ForeignKeyConstraint = true,
-            ForeignKeyRefTableName = nameof(UFTGUIStepHierarchy), ForeignKeyRefTableColumnName = "id")]
-        public long? StepHierarchyID { get; set; }
+            ForeignKeyRefTableName = nameof(UFTGUIHierarchy), ForeignKeyRefTableColumnName = "id")]
+        public long? HierarchyID { get; set; }
 
         [TableColumn("category", TableColumnDataType.Text)]
         public string Category { get; set; }
@@ -37,16 +37,16 @@ namespace ReportConverter.Sqlite.DB.Schema_1_0.Tables
 
     partial class UFTGUISIDProperty
     {
-        public static UFTGUISIDProperty CreateDataObject(XmlReport.SIDBasicPropertyExtType basicSID, UFTGUIStepHierarchy stepHierarchyDataObject)
+        public static UFTGUISIDProperty CreateDataObject(XmlReport.SIDBasicPropertyExtType basicSID, UFTGUIHierarchy hierarchyDataObject)
         {
-            if (basicSID == null || stepHierarchyDataObject == null)
+            if (basicSID == null || hierarchyDataObject == null)
             {
                 return null;
             }
 
             return new UFTGUISIDProperty
             {
-                StepHierarchyID = stepHierarchyDataObject.ID,
+                HierarchyID = hierarchyDataObject.ID,
                 Category = UFTGUISIDCategory.BasicSID,
                 Name = basicSID.Name,
                 Value = basicSID.Value,
@@ -55,16 +55,16 @@ namespace ReportConverter.Sqlite.DB.Schema_1_0.Tables
             };
         }
 
-        public static UFTGUISIDProperty CreateDataObject(XmlReport.SIDOptionalPropertyExtType optSID, UFTGUIStepHierarchy stepHierarchyDataObject)
+        public static UFTGUISIDProperty CreateDataObject(XmlReport.SIDOptionalPropertyExtType optSID, UFTGUIHierarchy hierarchyDataObject)
         {
-            if (optSID == null || stepHierarchyDataObject == null)
+            if (optSID == null || hierarchyDataObject == null)
             {
                 return null;
             }
 
             return new UFTGUISIDProperty
             {
-                StepHierarchyID = stepHierarchyDataObject.ID,
+                HierarchyID = hierarchyDataObject.ID,
                 Category = UFTGUISIDCategory.OptionalSID,
                 Name = optSID.Name,
                 Value = optSID.Value,

@@ -54,19 +54,19 @@ namespace ReportConverter.Sqlite.DB.Schema_1_0
             switch (status)
             {
                 case XmlReport.ReportStatus.Failed:
-                    return "failed";
+                    return "FAILED";
 
                 case XmlReport.ReportStatus.Warning:
-                    return "warning";
+                    return "WARNING";
 
                 case XmlReport.ReportStatus.Information:
-                    return "information";
+                    return "INFORMATION";
 
                 case XmlReport.ReportStatus.Passed:
-                    return "passed";
+                    return "PASSED";
 
                 case XmlReport.ReportStatus.Done:
-                    return "done";
+                    return "DONE";
 
                 default:
                     return null;

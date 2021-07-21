@@ -14,10 +14,10 @@ namespace ReportConverter.Sqlite.DB.Schema_1_0.Tables
         [TableColumnConstraint(PrimaryKeyConstraint = true, PrimaryKeyAutoIncrement = true)]
         public long ID { get; set; }
 
-        [TableColumn("step_hierarchy_id", TableColumnDataType.Integer)]
+        [TableColumn("hierarchy_id", TableColumnDataType.Integer)]
         [TableColumnConstraint(NotNullConstraint = true, ForeignKeyConstraint = true,
-            ForeignKeyRefTableName = nameof(UFTGUIStepHierarchy), ForeignKeyRefTableColumnName = "id")]
-        public long? StepHierarchyID { get; set; }
+            ForeignKeyRefTableName = nameof(UFTGUIHierarchy), ForeignKeyRefTableColumnName = "id")]
+        public long? HierarchyID { get; set; }
 
         [TableColumn("name", TableColumnDataType.Text)]
         public string Name { get; set; }
@@ -33,18 +33,18 @@ namespace ReportConverter.Sqlite.DB.Schema_1_0.Tables
     {
         public static UFTGUITOPath CreateDataObject(
             XmlReport.TestObjectPathObjectExtType toPathObj,
-            UFTGUIStepHierarchy stepHierarchyDataObject,
+            UFTGUIHierarchy hierarchyDataObject,
             long index
             )
         {
-            if (toPathObj == null || stepHierarchyDataObject == null)
+            if (toPathObj == null || hierarchyDataObject == null)
             {
                 return null;
             }
 
             return new UFTGUITOPath
             {
-                StepHierarchyID = stepHierarchyDataObject.ID,
+                HierarchyID = hierarchyDataObject.ID,
                 Name = toPathObj.Name,
                 Type = toPathObj.Type,
                 Index = index

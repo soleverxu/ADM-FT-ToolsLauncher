@@ -44,6 +44,9 @@ namespace ReportConverter.Sqlite.DB.Schema_1_0.Tables
         [TableColumnConstraint(DefaultConstraint = true, DefaultValue = "0")]
         public double? DurationSeconds { get; set; }
 
+        [TableColumn("status", TableColumnDataType.Text)]
+        public string Status { get; set; }
+
         [TableColumn("env_hostname", TableColumnDataType.Text)]
         public string HostName { get; set; }
 
@@ -89,6 +92,7 @@ namespace ReportConverter.Sqlite.DB.Schema_1_0.Tables
                 StartTime = Utils.GetISO8601DateTimeString(testReport.TestRunStartTime, testReport.TimeZone),
                 StartUnixTime = Utils.GetDateTimeOffsetWithTimeZone(testReport.TestRunStartTime, testReport.TimeZone).ToUnixTimeSeconds(),
                 DurationSeconds = (double)testReport.TestDurationSeconds,
+                Status = testReport.Status.GetStatusString(),
                 HostName = testReport.HostName,
                 Locale = testReport.Locale,
                 TimeZone = testReport.TimeZone,

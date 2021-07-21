@@ -106,6 +106,8 @@ namespace ReportConverter.XmlReport
             TestAUTs = Node.Data.TestedApplications;
             if (TestAUTs == null) TestAUTs = new TestedApplicationType[0];
 
+            Status = Node.Status;
+
             return true;
         }
 
@@ -135,5 +137,6 @@ namespace ReportConverter.XmlReport
         public IEnumerable<ParameterType> TestInputParameters { get; protected set; }
         public IEnumerable<ParameterType> TestOutputParameters { get; protected set; }
         public IEnumerable<TestedApplicationType> TestAUTs { get; protected set; }
+        public ReportStatus Status { get; protected set; }
     }
 }
